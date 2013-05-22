@@ -50,6 +50,11 @@
 -(void)layoutSubviews{
     [self setActionSheetStyle:UIActionSheetStyleBlackTranslucent];
     [self addSubview:self.doneButton];
+    
+    
+    [self resignFirstResponder];
+    
+    
 }
 
 #pragma mark - Picker view data source
@@ -127,6 +132,28 @@
 }
 
 #pragma mark - Actions
+
+-(void)showInView:(UIView *)view {
+    
+    if(self.type == EAActionSheetPickerTypeStandard && !self.pickerOptions){
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"No Options Specified"
+                                                       message:@"You must set values to the pickerOptions property before proceeding"
+                                                      delegate:nil
+                                             cancelButtonTitle:@"OK"
+                                             otherButtonTitles:nil];
+        [alert show];
+    } else {
+        [UIView animateWithDuration:0.25 animations:^{
+            [super showInView:[[UIApplication sharedApplication] keyWindow]];
+            [self setBounds:PICKER_SHEET_BOUNDS];
+        } completion:^(BOOL finished) {
+            [self removeKeyboardFromView:view];
+        }];
+    }
+}
+
+#pragma mark - Private Helper Methods
+
 - (void)hide {
     [self dismissWithClickedButtonIndex:0 animated:YES];
     
@@ -140,30 +167,39 @@
     }
 }
 
--(void)show {
+- (void)removeKeyboardFromView:(UIView *)view {
     
-    if(self.type == EAActionSheetPickerTypeStandard && !self.pickerOptions){
-        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"No Options Specified"
-                                                       message:@"You must set values to the pickerOptions property before proceeding"
-                                                      delegate:nil
-                                             cancelButtonTitle:@"OK"
-                                             otherButtonTitles:nil];
-        [alert show];
-    } else {
-        [UIView animateWithDuration:0.25 animations:^{
-            [self showInView:[[UIApplication sharedApplication] keyWindow]];
-            [self setBounds:PICKER_SHEET_BOUNDS];
-        } completion:^(BOOL finished) {}];
+    if([view isFirstResponder]){ // level 1
+        [view resignFirstResponder];
+    }
+    
+    for(UIView *subview in view.subviews){ // level 2
+        if([subview isFirstResponder]){
+            [subview resignFirstResponder];
+            break;
+        }
+        for(UIView *subsubview in subview.subviews){ // level 3
+            if([subsubview isFirstResponder]){
+                [subsubview resignFirstResponder];
+                break;
+            }
+            for(UIView *subsubsubview in subsubview.subviews){ // level 4
+                if([subsubsubview isFirstResponder]){
+                    [subsubsubview resignFirstResponder];
+                    break;
+                }
+            }
+        }
     }
 }
 /*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect
-{
-    // Drawing code
-}
-*/
+ // Only override drawRect: if you perform custom drawing.
+ // An empty implementation adversely affects performance during animation.
+ - (void)drawRect:(CGRect)rect
+ {
+ // Drawing code
+ }
+ */
 
 
 

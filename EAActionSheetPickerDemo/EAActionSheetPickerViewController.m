@@ -33,7 +33,7 @@
 
 - (IBAction)buttonTapped:(UIButton *)sender {
     
-    [self.picker show];
+    [self.picker showInView:self.view];
 }
 
 - (IBAction)switchTapped:(UISwitch *)sender {

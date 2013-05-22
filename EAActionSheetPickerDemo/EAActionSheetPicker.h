@@ -30,8 +30,8 @@ typedef enum {
 @interface EAActionSheetPicker : UIActionSheet <UIPickerViewDataSource, UIPickerViewDelegate>
 
 /*
-    The following three properties (picker, datePicker, and doneButton) DO NOT need to be touched by you for the typical user experience.
-    We made them publicly accessible just in case there was custom coloring, drawing, etc. that you wanted to make unique for your application
+ The following three properties (picker, datePicker, and doneButton) DO NOT need to be touched by you for the typical user experience.
+ We made them publicly accessible just in case there was custom coloring, drawing, etc. that you wanted to make unique for your application
  */
 
 @property (nonatomic, strong) UIPickerView *picker;
@@ -53,6 +53,6 @@ typedef enum {
 
 -(id)initWithOptions:(NSArray *)options;
 -(id)initWithDatePickerMode:(UIDatePickerMode)mode;
--(void)show;
+-(void)showInView:(UIView *)view;
 
 @end
