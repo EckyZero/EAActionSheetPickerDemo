@@ -16,6 +16,8 @@
 
 @implementation EAActionSheetPickerViewController
 
+#pragma mark - View Lifecycle
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -31,10 +33,7 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (IBAction)buttonTapped:(UIButton *)sender {
-    
-    [self.picker showInView:self.view];
-}
+#pragma mark - Action
 
 - (IBAction)switchTapped:(UISwitch *)sender {
     
@@ -45,12 +44,23 @@
     }
 }
 
--(void)EAActionSheetPicker:(EAActionSheetPicker *)actionSheet didDismissWithSelection:(id)selection{
-    if([selection isKindOfClass:[NSString class]]){
-            self.resultLabel.text = selection;
-    } else if([selection isKindOfClass:[NSDate class]]){
-        self.resultLabel.text = [NSString stringWithFormat:@"%@", selection];
-    }
+#pragma mark - EAActionSheetPicker Delegate
+
+-(void)EAActionSheetPicker:(EAActionSheetPicker *)actionSheet
+   didDismissWithSelection:(id)selection
+               inTextField:(UITextField *)textField{
+    
+    // optional delegate method
+    // The purpose is to specify another target for your selected text
+    // i.e. label, textView, etc.
+    // textField will be nil if none were previously specified
+}
+
+#pragma mark - UITextField Delegate
+
+-(void)textFieldDidBeginEditing:(UITextField *)textField{
+    self.picker.textField = textField;
+    [self.picker showInView:self.view];
 }
 
 

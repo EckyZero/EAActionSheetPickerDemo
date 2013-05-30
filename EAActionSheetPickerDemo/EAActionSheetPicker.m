@@ -13,8 +13,12 @@
 #define PICKER_CLOSE_BTN_FRAME  CGRectMake(260, 7, 50, 30)
 #define PICKER_FRAME            CGRectMake(0, 40, 0, 0)
 #define PICKER_SHEET_BOUNDS     CGRectMake(0, 0, 320, 485)
+#define PICKER_CANCEL_BTN_FRAME CGRectMake(10, 7, 50, 30)
 
 @interface EAActionSheetPicker ()
+
+@property (nonatomic, strong) UIPickerView *picker;
+@property (nonatomic, strong) UIDatePicker *datePicker;
 
 @end
 
@@ -48,13 +52,9 @@
 }
 
 -(void)layoutSubviews{
-    [self setActionSheetStyle:UIActionSheetStyleBlackTranslucent];
-    [self addSubview:self.doneButton];
-    
-    
+    [self addSubview:self.leftControl];
+    [self addSubview:self.rightControl];
     [self resignFirstResponder];
-    
-    
 }
 
 #pragma mark - Picker view data source
@@ -101,6 +101,17 @@
 
 #pragma mark - Subcomponents
 
+-(UISegmentedControl *)leftControl{
+    if(!_leftControl){
+        _leftControl = [[UISegmentedControl alloc] initWithItems:[NSArray arrayWithObject:@"Cancel"]];
+        _leftControl.momentary = YES;
+        _leftControl.frame = PICKER_CANCEL_BTN_FRAME;
+        _leftControl.segmentedControlStyle = UISegmentedControlStyleBar;
+        [_leftControl addTarget:self action:@selector(hide:) forControlEvents:UIControlEventValueChanged];
+    }
+    return _leftControl;
+}
+
 -(UIDatePicker *)datePicker{
     if(!_datePicker){
         _datePicker = [[UIDatePicker alloc] initWithFrame:PICKER_FRAME];
@@ -109,16 +120,16 @@
     return _datePicker;
 }
 
--(UISegmentedControl *)doneButton{
-    if(!_doneButton){
-        _doneButton = [[UISegmentedControl alloc] initWithItems:[NSArray arrayWithObject:@"Done"]];
-        _doneButton.momentary = YES;
-        _doneButton.frame = PICKER_CLOSE_BTN_FRAME;
-        _doneButton.segmentedControlStyle = UISegmentedControlStyleBar;
-        _doneButton.tintColor = PICKER_CLOSE_BTN_BLUE;
-        [_doneButton addTarget:self action:@selector(hide) forControlEvents:UIControlEventValueChanged];
+-(UISegmentedControl *)rightControl{
+    if(!_rightControl){
+        _rightControl = [[UISegmentedControl alloc] initWithItems:[NSArray arrayWithObjects:@"Done",nil]];
+        _rightControl.momentary = YES;
+        _rightControl.frame = PICKER_CLOSE_BTN_FRAME;
+        _rightControl.segmentedControlStyle = UISegmentedControlStyleBar;
+        _rightControl.tintColor = PICKER_CLOSE_BTN_BLUE;
+        [_rightControl addTarget:self action:@selector(hide:) forControlEvents:UIControlEventValueChanged];
     }
-    return _doneButton;
+    return _rightControl;
 }
 
 -(UIPickerView *)picker{
@@ -154,16 +165,36 @@
 
 #pragma mark - Private Helper Methods
 
-- (void)hide {
+- (void)hide:(UISegmentedControl *)sender {
     [self dismissWithClickedButtonIndex:0 animated:YES];
     
-    
-    NSInteger row = [self.picker selectedRowInComponent:0];
-    
-    if(self.type == EAActionSheetPickerTypeStandard) {
-        [self.delegate EAActionSheetPicker:self didDismissWithSelection:[self.pickerOptions objectAtIndex:row]];
-    } else if(self.type == EAActionSheetPickerTypeDate){
-        [self.delegate EAActionSheetPicker:self didDismissWithSelection:self.datePicker.date];
+    // Only dismiss with selected if the last index on the right side was selected
+    if(sender == self.rightControl){
+        if(self.rightControl.selectedSegmentIndex == self.rightControl.numberOfSegments - 1){
+            NSInteger row = [self.picker selectedRowInComponent:0];
+            
+            if(self.type == EAActionSheetPickerTypeStandard) {
+                [self setDefaultValue:[self.pickerOptions objectAtIndex:row]];
+                [self.delegate EAActionSheetPicker:self
+                           didDismissWithSelection:[self.pickerOptions objectAtIndex:row]
+                                       inTextField:self.textField];
+                 
+            } else if(self.type == EAActionSheetPickerTypeDate){
+                [self setDefaultValue:[NSString stringWithFormat:@"%@", self.datePicker.date]];
+                [self.delegate EAActionSheetPicker:self
+                           didDismissWithSelection:self.datePicker.date
+                                       inTextField:self.textField];
+            }
+        }
+    }
+}
+
+-(void)setDefaultValue:(NSString *)value{
+    if(self.textField){
+        self.textField.text = value;
+    }
+    if(self.label){
+        self.label.text = value;
     }
 }
 
@@ -192,15 +223,5 @@
         }
     }
 }
-/*
- // Only override drawRect: if you perform custom drawing.
- // An empty implementation adversely affects performance during animation.
- - (void)drawRect:(CGRect)rect
- {
- // Drawing code
- }
- */
-
-
 
 @end

@@ -18,8 +18,12 @@
  */
 
 @class EAActionSheetPicker;
+
 @protocol EAActionSheetPickerDelegate <UIActionSheetDelegate>
--(void)EAActionSheetPicker:(EAActionSheetPicker *)actionSheet didDismissWithSelection:(id)selection;
+
+@optional
+-(void)EAActionSheetPicker:(EAActionSheetPicker *)actionSheet didDismissWithSelection:(id)selection inTextField:(UITextField *)textField;
+
 @end
 
 typedef enum {
@@ -30,13 +34,13 @@ typedef enum {
 @interface EAActionSheetPicker : UIActionSheet <UIPickerViewDataSource, UIPickerViewDelegate>
 
 /*
- The following three properties (picker, datePicker, and doneButton) DO NOT need to be touched by you for the typical user experience.
- We made them publicly accessible just in case there was custom coloring, drawing, etc. that you wanted to make unique for your application
+ The following properties DO NOT need to be touched by you for the typical user experience.
+ We made them publicly accessible just in case there was custom coloring, drawing, targets, etc. that you wanted to make unique for your application
  */
 
-@property (nonatomic, strong) UIPickerView *picker;
-@property (nonatomic, strong) UIDatePicker *datePicker;
-@property (nonatomic, strong) UISegmentedControl *doneButton;
+@property (nonatomic, strong) UISegmentedControl *rightControl;
+@property (nonatomic, strong) UISegmentedControl *leftControl;
+//@property (nonatomic, strong)
 
 /*
  It isn't necessary to specify the type when you instantitate EAActionSheetPicker
@@ -47,6 +51,8 @@ typedef enum {
 
 @property (nonatomic, weak) id <EAActionSheetPickerDelegate> delegate;
 @property (nonatomic, strong) NSMutableArray *pickerOptions;
+@property (nonatomic, strong) UITextField *textField;
+@property (nonatomic, strong) UILabel *label;
 @property (nonatomic) EAActionSheetPickerType type;
 @property (nonatomic) UIDatePickerMode dateMode;
 

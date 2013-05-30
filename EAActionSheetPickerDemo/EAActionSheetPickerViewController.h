@@ -9,10 +9,11 @@
 #import <UIKit/UIKit.h>
 #import "EAActionSheetPicker.h"
 
-@interface EAActionSheetPickerViewController : UIViewController <EAActionSheetPickerDelegate>
+@interface EAActionSheetPickerViewController : UIViewController <EAActionSheetPickerDelegate, UITextFieldDelegate>
 
 @property (weak, nonatomic) IBOutlet UILabel *resultLabel;
-- (IBAction)buttonTapped:(UIButton *)sender;
+@property (weak, nonatomic) IBOutlet UITextField *resultTextField;
+
 - (IBAction)switchTapped:(UISwitch *)sender;
 
 @end
