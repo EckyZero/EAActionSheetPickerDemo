@@ -13,14 +13,22 @@ After that, here's how simple it is to use:
 
     NSArray *options = [NSArray arrayWithObjects:@"One", @"Two", @"Three", @"Four", @"Five", nil];
     EAActionSheetPicker *actionPicker = [[EAActionSheetPicker alloc]initWithOptions:options];
+    actionPicker.textField = self.emailField;
     actionPicker.delegate = self;
 
     [actionPicker showInView:self.view];
     
-EAActionSheetPicker requires you to implement one delegate method as shown below (using self.resultLabel to show how to handle what this delegate methods returns):
+If you have multiple textFields and want to use the same picker, set the associated textfield to the actionPicker in this UITextField delegate method
+
+    -(void)textFieldDidBeginEditing:(UITextField *)textField{
+        self.actionPicker.textField = textField;
+        [self.actionPicker showInView:self.view];
+    }
+    
+EAActionSheetPicker give you the option to implement one delegate method as shown below (using self.resultLabel to show how to handle what this delegate methods returns):
 
     // This returns a type of id because the return type is determined by which pickerType you're currently using. 
-    -(void)EAActionSheetPicker:(EAActionSheetPicker *)actionSheet didDismissWithSelection:(id)selection{
+    -(void)EAActionSheetPicker:(EAActionSheetPicker *)actionSheet didDismissWithSelection:(id)selection inTextField:(UITextField *)textField{
     
       if([selection isKindOfClass:[NSString class]]){
             self.resultLabel.text = selection;
