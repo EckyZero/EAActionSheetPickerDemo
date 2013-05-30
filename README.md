@@ -15,7 +15,7 @@ After that, here's how simple it is to use:
     EAActionSheetPicker *actionPicker = [[EAActionSheetPicker alloc]initWithOptions:options];
     actionPicker.delegate = self;
 
-    [actionPicker show];
+    [actionPicker showInView:self.view];
     
 EAActionSheetPicker requires you to implement one delegate method as shown below (using self.resultLabel to show how to handle what this delegate methods returns):
 
