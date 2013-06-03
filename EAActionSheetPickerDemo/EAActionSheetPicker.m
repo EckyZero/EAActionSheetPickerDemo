@@ -200,28 +200,7 @@
 
 - (void)removeKeyboardFromView:(UIView *)view {
     
-    if([view isFirstResponder]){ // level 1
-        [view resignFirstResponder];
-    }
-    
-    for(UIView *subview in view.subviews){ // level 2
-        if([subview isFirstResponder]){
-            [subview resignFirstResponder];
-            break;
-        }
-        for(UIView *subsubview in subview.subviews){ // level 3
-            if([subsubview isFirstResponder]){
-                [subsubview resignFirstResponder];
-                break;
-            }
-            for(UIView *subsubsubview in subsubview.subviews){ // level 4
-                if([subsubsubview isFirstResponder]){
-                    [subsubsubview resignFirstResponder];
-                    break;
-                }
-            }
-        }
-    }
+    [self.textField resignFirstResponder];
 }
 
 @end
