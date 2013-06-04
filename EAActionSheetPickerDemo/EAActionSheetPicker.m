@@ -24,6 +24,8 @@
 
 @implementation EAActionSheetPicker
 
+//@synthesize textField = _textField;
+
 #pragma mark - Constructors
 
 - (id)initWithFrame:(CGRect)frame
@@ -52,6 +54,7 @@
 }
 
 -(void)layoutSubviews{
+    [self setActionSheetStyle:UIActionSheetStyleBlackTranslucent];
     [self addSubview:self.leftControl];
     [self addSubview:self.rightControl];
     [self resignFirstResponder];
@@ -175,15 +178,18 @@
             
             if(self.type == EAActionSheetPickerTypeStandard) {
                 [self setDefaultValue:[self.pickerOptions objectAtIndex:row]];
-                [self.delegate EAActionSheetPicker:self
-                           didDismissWithSelection:[self.pickerOptions objectAtIndex:row]
-                                       inTextField:self.textField];
-                 
+                if([self.delegate respondsToSelector:@selector(EAActionSheetPicker:didDismissWithSelection:inTextField:)]){
+                    [self.delegate EAActionSheetPicker:self
+                               didDismissWithSelection:[self.pickerOptions objectAtIndex:row]
+                                           inTextField:self.textField];
+                }
             } else if(self.type == EAActionSheetPickerTypeDate){
                 [self setDefaultValue:[NSString stringWithFormat:@"%@", self.datePicker.date]];
-                [self.delegate EAActionSheetPicker:self
-                           didDismissWithSelection:self.datePicker.date
-                                       inTextField:self.textField];
+                if([self.delegate respondsToSelector:@selector(EAActionSheetPicker:didDismissWithSelection:inTextField:)]){
+                    [self.delegate EAActionSheetPicker:self
+                               didDismissWithSelection:self.datePicker.date
+                                           inTextField:self.textField];
+                }
             }
         }
     }
