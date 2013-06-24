@@ -185,7 +185,7 @@
                                            inTextField:self.textField];
                 }
             } else if(self.type == EAActionSheetPickerTypeDate){
-                [self setDefaultValue:[NSString stringWithFormat:@"%@", self.datePicker.date]];
+                [self setDefaultValue:[[NSString stringWithFormat:@"%@", self.datePicker.date] substringToIndex:10]];
                 if([self.delegate respondsToSelector:@selector(EAActionSheetPicker:didDismissWithSelection:inTextField:)]){
                     [self.delegate EAActionSheetPicker:self
                                didDismissWithSelection:self.datePicker.date
