@@ -87,6 +87,7 @@
 
 -(void)setPickerOptions:(NSMutableArray *)pickerOptions{
     _pickerOptions = pickerOptions;
+    [self.picker reloadAllComponents];
     self.type = EAActionSheetPickerTypeStandard;
 }
 
