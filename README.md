@@ -3,6 +3,8 @@ EAActionSheetPickerDemo
 
 EAActionSheetPicker allows users to simply implement a UIActionSheet along with a UIPickerView/UIDatePicker without having to worry about messy allocations, display, etc. It's as simple as alloc initing the EAActionSheetPicker and you're done.
 
+![Example Image](https://github.com/EckyZero/EAActionSheetPickerDemo/blob/master/EAActionSheetPickerDemo/Screenshot.png)
+
 How To Use:
 -----------
 
