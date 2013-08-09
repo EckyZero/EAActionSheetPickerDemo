@@ -41,6 +41,8 @@
         self.picker.type = EAActionSheetPickerTypeStandard;
     } else {
         self.picker.type = EAActionSheetPickerTypeDate;
+        self.picker.maximumDate = [NSDate date];
+        self.picker.dateMode = UIDatePickerModeDate;
     }
 }
 

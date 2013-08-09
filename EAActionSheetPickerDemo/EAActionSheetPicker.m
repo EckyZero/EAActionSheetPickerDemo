@@ -24,8 +24,9 @@
 
 @implementation EAActionSheetPicker
 
-//@synthesize textField = _textField;
+@synthesize dateMode = _dateMode;
 
+#pragma mark -
 #pragma mark - Constructors
 
 - (id)initWithFrame:(CGRect)frame
@@ -60,6 +61,7 @@
     [self resignFirstResponder];
 }
 
+#pragma mark -
 #pragma mark - Picker view data source
 
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
@@ -74,6 +76,7 @@
     return [self.pickerOptions objectAtIndex:row];
 }
 
+#pragma mark -
 #pragma mark - Setters
 
 -(void)setDelegate:(id<EAActionSheetPickerDelegate>)delegate{
@@ -97,13 +100,34 @@
     if(_type == EAActionSheetPickerTypeDate){
         [self.picker removeFromSuperview];
         [self addSubview:self.datePicker];
+        self.datePicker.datePickerMode = self.dateMode;
     } else if(_type == EAActionSheetPickerTypeStandard){
         [self.datePicker removeFromSuperview];
         [self addSubview:self.picker];
     }
 }
 
-#pragma mark - Subcomponents
+-(void)setMinimumDate:(NSDate *)minimumDate{
+    _minimumDate = minimumDate;
+    self.datePicker.minimumDate = minimumDate;
+    self.type = EAActionSheetPickerTypeDate;
+}
+
+-(void)setMaximumDate:(NSDate *)maximumDate{
+    _maximumDate = maximumDate;
+    self.datePicker.maximumDate = maximumDate;
+    self.type = EAActionSheetPickerTypeDate;
+}
+
+#pragma mark -
+#pragma mark - Getters
+
+-(UIDatePickerMode)dateMode{
+    if(!_dateMode){
+        _dateMode = UIDatePickerModeDate;
+    }
+    return _dateMode;
+}
 
 -(UISegmentedControl *)leftControl{
     if(!_leftControl){
@@ -119,8 +143,8 @@
 -(UIDatePicker *)datePicker{
     if(!_datePicker){
         _datePicker = [[UIDatePicker alloc] initWithFrame:PICKER_FRAME];
-        _datePicker.datePickerMode = UIDatePickerModeDate;
     }
+        _datePicker.datePickerMode = self.dateMode;
     return _datePicker;
 }
 
@@ -146,6 +170,7 @@
     return _picker;
 }
 
+#pragma mark -
 #pragma mark - Actions
 
 -(void)showInView:(UIView *)view {
@@ -167,6 +192,7 @@
     }
 }
 
+#pragma mark -
 #pragma mark - Private Helper Methods
 
 - (void)hide:(UISegmentedControl *)sender {
@@ -185,11 +211,30 @@
                                            inTextField:self.textField];
                 }
             } else if(self.type == EAActionSheetPickerTypeDate){
-                [self setDefaultValue:[[NSString stringWithFormat:@"%@", self.datePicker.date] substringToIndex:10]];
+                NSString *result;
+                if(self.dateMode == UIDatePickerModeCountDownTimer){
+                    result = [NSString stringWithFormat:@"%i",(int)self.datePicker.countDownDuration];
+                } else if(self.dateMode == UIDatePickerModeDate){
+                    result = [[NSString stringWithFormat:@"%@", self.datePicker.date] substringToIndex:10];
+                } else if(self.dateMode == UIDatePickerModeDateAndTime){
+                    result = [[NSString stringWithFormat:@"%@", self.datePicker.date] substringToIndex:19];
+                }
+//                else if(self.dateMode == UIDatePickerModeTime){
+//                    result = [NSString stringWithFormat:@"%@", self.datePicker.date];
+//                }
+                
+                [self setDefaultValue:result];
                 if([self.delegate respondsToSelector:@selector(EAActionSheetPicker:didDismissWithSelection:inTextField:)]){
-                    [self.delegate EAActionSheetPicker:self
-                               didDismissWithSelection:self.datePicker.date
-                                           inTextField:self.textField];
+                    
+                     if(self.dateMode == UIDatePickerModeCountDownTimer){
+                         [self.delegate EAActionSheetPicker:self
+                                    didDismissWithSelection:[NSNumber numberWithDouble:self.datePicker.countDownDuration]
+                                                 inTextField:self.textField];
+                     } else {
+                         [self.delegate EAActionSheetPicker:self
+                                    didDismissWithSelection:self.datePicker.date
+                                                inTextField:self.textField];
+                     }
                 }
             }
         }

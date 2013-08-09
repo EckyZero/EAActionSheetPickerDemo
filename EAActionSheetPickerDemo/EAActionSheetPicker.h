@@ -28,7 +28,7 @@
 
 typedef enum {
     EAActionSheetPickerTypeStandard,
-    EAActionSheetPickerTypeDate
+    EAActionSheetPickerTypeDate,
 } EAActionSheetPickerType;
 
 @interface EAActionSheetPicker : UIActionSheet <UIPickerViewDataSource, UIPickerViewDelegate>
@@ -55,6 +55,8 @@ typedef enum {
 @property (nonatomic, strong) UILabel *label;
 @property (nonatomic) EAActionSheetPickerType type;
 @property (nonatomic) UIDatePickerMode dateMode;
+@property (nonatomic, strong) NSDate *minimumDate;
+@property (nonatomic, strong) NSDate *maximumDate;
 
 
 -(id)initWithOptions:(NSArray *)options;
