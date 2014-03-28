@@ -13,7 +13,7 @@ How To Use:
 
 After that, here's how simple it is to use:
 
-    NSArray *options = [NSArray arrayWithObjects:@"One", @"Two", @"Three", @"Four", @"Five", nil];
+    NSArray *options = [NSMutableArray arrayWithObjects:@"One", @"Two", @"Three", @"Four", @"Five", nil];
     EAActionSheetPicker *actionPicker = [[EAActionSheetPicker alloc]initWithOptions:options];
     actionPicker.textField = self.emailField;
     actionPicker.delegate = self;
@@ -58,11 +58,16 @@ This allows you to use the same actionPicker to switch between displaying a date
 We also provide several convenient init methods to get you started faster.
 
     // This instantiates an actionPicker as a pickerView with the specified options
-    NSArray *options = [NSArray arrayWithObjects:@"One", @"Two", @"Three", @"Four", @"Five", nil];
+    NSMutableArray *options = [NSMutableArray arrayWithObjects:@"One", @"Two", @"Three", @"Four", @"Five", nil];
     EAActionSheetPicker *actionPicker = [[EAActionSheetPicker alloc]initwithOptions:options];
     
     // This instantiates an actionPicker as a datePicker with the specified mode
     EAActionSheetPicker *actionPicker = [[EAActionSheetPicker alloc]initwithDatePickerMode:UIDatePickerModeDate];
+
+If you're looking for section headers in your UIPickerView, then just add \<h1> to the text of your relevant pickerOptions. Example is shown below. This will give you section headers like the one shown in the preview above.
+    
+    NSMutableArray *options = [NSMutableArray arrayWithObjects:@"<h1>Numbers", @"1", @"2", @"3", @"4", @"5", @"<h1>Text", @"One", @"Two", @"Three", @"Four", @"Five", nil];
+    
     
 Enjoy!
     
