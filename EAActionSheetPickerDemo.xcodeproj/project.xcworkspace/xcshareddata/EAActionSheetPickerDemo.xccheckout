@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>4A1E4B2A-3A9F-45E1-9AEA-8819F7D53B16</string>
+	<key>IDESourceControlProjectName</key>
+	<string>EAActionSheetPickerDemo</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>E2F4A1A1-7DAC-4CE7-8A9D-3E14556F5102</key>
+		<string>https://github.com/EckyZero/EAActionSheetPickerDemo.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>EAActionSheetPickerDemo.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>E2F4A1A1-7DAC-4CE7-8A9D-3E14556F5102</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/EckyZero/EAActionSheetPickerDemo.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>E2F4A1A1-7DAC-4CE7-8A9D-3E14556F5102</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>E2F4A1A1-7DAC-4CE7-8A9D-3E14556F5102</string>
+			<key>IDESourceControlWCCName</key>
+			<string>EAActionSheetPickerDemo</string>
+		</dict>
+	</array>
+</dict>
+</plist>

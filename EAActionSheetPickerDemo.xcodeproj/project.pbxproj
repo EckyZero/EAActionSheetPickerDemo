@@ -1,12 +1,13 @@
 // !$*UTF8*$!
 {
-  archiveVersion = 1;
+	archiveVersion = 1;
 	classes = {
 	};
 	objectVersion = 46;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3C332BA218E6259000B0970E /* Screenshot(2).PNG in Resources */ = {isa = PBXBuildFile; fileRef = 3C332BA118E6259000B0970E /* Screenshot(2).PNG */; };
 		3CA1B79E174D29880076DD9B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3CA1B79D174D29880076DD9B /* UIKit.framework */; };
 		3CA1B7A0174D29880076DD9B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3CA1B79F174D29880076DD9B /* Foundation.framework */; };
 		3CA1B7A2174D29880076DD9B /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3CA1B7A1174D29880076DD9B /* CoreGraphics.framework */; };
@@ -22,6 +23,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3C332BA118E6259000B0970E /* Screenshot(2).PNG */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Screenshot(2).PNG"; sourceTree = "<group>"; };
 		3CA1B79A174D29880076DD9B /* EAActionSheetPickerDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EAActionSheetPickerDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3CA1B79D174D29880076DD9B /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		3CA1B79F174D29880076DD9B /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -101,6 +103,7 @@
 		3CA1B7A4174D29880076DD9B /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				3C332BA118E6259000B0970E /* Screenshot(2).PNG */,
 				3CA1B7A5174D29880076DD9B /* EAActionSheetPickerDemo-Info.plist */,
 				3CA1B7A6174D29880076DD9B /* InfoPlist.strings */,
 				3CA1B7A9174D29880076DD9B /* main.m */,
@@ -167,6 +170,7 @@
 				3CA1B7A8174D29880076DD9B /* InfoPlist.strings in Resources */,
 				3CA1B7B0174D29890076DD9B /* Default.png in Resources */,
 				3CA1B7B2174D29890076DD9B /* Default@2x.png in Resources */,
+				3C332BA218E6259000B0970E /* Screenshot(2).PNG in Resources */,
 				3CA1B7B4174D29890076DD9B /* Default-568h@2x.png in Resources */,
 				3CA1B7B7174D29890076DD9B /* MainStoryboard.storyboard in Resources */,
 			);

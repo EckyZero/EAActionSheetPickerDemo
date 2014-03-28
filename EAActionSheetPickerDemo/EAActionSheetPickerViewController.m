@@ -22,7 +22,7 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
-    NSArray *options = [NSArray arrayWithObjects:@"One", @"Two", @"Three", @"Four", @"Five", nil];
+    NSArray *options = [NSArray arrayWithObjects:@"<h1>Numbers", @"1", @"2", @"3", @"4", @"5", @"<h1>Text", @"One", @"Two", @"Three", @"Four", @"Five", nil];
     self.picker = [[EAActionSheetPicker alloc]initWithOptions:options];
     self.picker.delegate = self;
 }
