@@ -19,12 +19,11 @@
 
 @property (nonatomic, strong) UIPickerView *picker;
 @property (nonatomic, strong) UIDatePicker *datePicker;
+@property (nonatomic, strong) NSString *headerTag;
 
 @end
 
 @implementation EAActionSheetPicker
-
-@synthesize dateMode = _dateMode;
 
 #pragma mark -
 #pragma mark - Constructors
@@ -55,10 +54,15 @@
 }
 
 -(void)layoutSubviews{
+    
+    [super layoutSubviews];
+    
     [self setActionSheetStyle:UIActionSheetStyleBlackTranslucent];
     [self addSubview:self.leftControl];
     [self addSubview:self.rightControl];
     [self resignFirstResponder];
+    
+    [self.picker selectRow:1 inComponent:0 animated:YES];
 }
 
 #pragma mark -
@@ -74,6 +78,48 @@
 
 - (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
     return [self.pickerOptions objectAtIndex:row];
+}
+
+-(UIView *)pickerView:(UIPickerView *)pickerView
+           viewForRow:(NSInteger)row
+         forComponent:(NSInteger)component
+          reusingView:(UIView *)view {
+    
+    UILabel* label = [[UILabel alloc] init];
+    NSString *text = [self.pickerOptions objectAtIndex:row];
+    
+    label.backgroundColor = [UIColor clearColor];
+    label.textAlignment = NSTextAlignmentCenter;
+    label.text = text;
+    
+    // set font
+    if ([text rangeOfString:self.headerTag].location != NSNotFound) {
+        
+        label.font = [UIFont fontWithName:@"Arial-BoldMT" size:16];
+        label.backgroundColor = [UIColor colorWithRed:227/255.0 green:127/255.0 blue:102/255.0 alpha:1.0];;
+        label.text = [text stringByReplacingOccurrencesOfString:self.headerTag withString:@""];
+        label.textColor = [UIColor whiteColor];
+        label.layer.shadowColor = [UIColor colorWithRed:157/255.0 green:40/255.0 blue:51/255.0 alpha:1.0].CGColor;
+        label.layer.shadowOffset = CGSizeMake(0, 2);
+        label.layer.shadowOpacity = 0.8;
+        
+    } else {
+        
+        label.textColor = [UIColor blackColor];
+        label.font = [UIFont fontWithName:@"Arial-RegularMT" size:16];
+    }
+    
+    return label;
+}
+
+#pragma mark -
+#pragma mark - Picker View delegate
+
+-(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
+    
+    if([[self.pickerOptions objectAtIndex:row] rangeOfString:self.headerTag].location != NSNotFound) {
+        [pickerView selectRow:row+1 inComponent:component animated:YES];
+    }
 }
 
 #pragma mark -
@@ -100,33 +146,20 @@
     if(_type == EAActionSheetPickerTypeDate){
         [self.picker removeFromSuperview];
         [self addSubview:self.datePicker];
-        self.datePicker.datePickerMode = self.dateMode;
     } else if(_type == EAActionSheetPickerTypeStandard){
         [self.datePicker removeFromSuperview];
         [self addSubview:self.picker];
     }
 }
 
--(void)setMinimumDate:(NSDate *)minimumDate{
-    _minimumDate = minimumDate;
-    self.datePicker.minimumDate = minimumDate;
-    self.type = EAActionSheetPickerTypeDate;
-}
-
--(void)setMaximumDate:(NSDate *)maximumDate{
-    _maximumDate = maximumDate;
-    self.datePicker.maximumDate = maximumDate;
-    self.type = EAActionSheetPickerTypeDate;
-}
-
 #pragma mark -
-#pragma mark - Getters
+#pragma mark - Subcomponents
 
--(UIDatePickerMode)dateMode{
-    if(!_dateMode){
-        _dateMode = UIDatePickerModeDate;
+-(NSString *)headerTag {
+    if(!_headerTag) {
+        _headerTag = [NSString stringWithFormat:@"<h1>"];
     }
-    return _dateMode;
+    return _headerTag;
 }
 
 -(UISegmentedControl *)leftControl{
@@ -143,8 +176,8 @@
 -(UIDatePicker *)datePicker{
     if(!_datePicker){
         _datePicker = [[UIDatePicker alloc] initWithFrame:PICKER_FRAME];
+        _datePicker.datePickerMode = UIDatePickerModeDate;
     }
-        _datePicker.datePickerMode = self.dateMode;
     return _datePicker;
 }
 
@@ -183,8 +216,8 @@
                                              otherButtonTitles:nil];
         [alert show];
     } else {
+                    [super showInView:[[UIApplication sharedApplication] keyWindow]];
         [UIView animateWithDuration:0.25 animations:^{
-            [super showInView:[[UIApplication sharedApplication] keyWindow]];
             [self setBounds:PICKER_SHEET_BOUNDS];
         } completion:^(BOOL finished) {
             [self removeKeyboardFromView:view];
@@ -198,43 +231,27 @@
 - (void)hide:(UISegmentedControl *)sender {
     [self dismissWithClickedButtonIndex:0 animated:YES];
     
+    
     // Only dismiss with selected if the last index on the right side was selected
     if(sender == self.rightControl){
         if(self.rightControl.selectedSegmentIndex == self.rightControl.numberOfSegments - 1){
             NSInteger row = [self.picker selectedRowInComponent:0];
             
+            NSString *formattedResult = [[self.pickerOptions objectAtIndex:row] stringByReplacingOccurrencesOfString:self.headerTag
+                                                                                                          withString:@""];
             if(self.type == EAActionSheetPickerTypeStandard) {
-                [self setDefaultValue:[self.pickerOptions objectAtIndex:row]];
+                [self setDefaultValue:formattedResult];
                 if([self.delegate respondsToSelector:@selector(EAActionSheetPicker:didDismissWithSelection:inTextField:)]){
                     [self.delegate EAActionSheetPicker:self
-                               didDismissWithSelection:[self.pickerOptions objectAtIndex:row]
+                               didDismissWithSelection:formattedResult
                                            inTextField:self.textField];
                 }
             } else if(self.type == EAActionSheetPickerTypeDate){
-                NSString *result;
-                if(self.dateMode == UIDatePickerModeCountDownTimer){
-                    result = [NSString stringWithFormat:@"%i",(int)self.datePicker.countDownDuration];
-                } else if(self.dateMode == UIDatePickerModeDate){
-                    result = [[NSString stringWithFormat:@"%@", self.datePicker.date] substringToIndex:10];
-                } else if(self.dateMode == UIDatePickerModeDateAndTime){
-                    result = [[NSString stringWithFormat:@"%@", self.datePicker.date] substringToIndex:19];
-                }
-//                else if(self.dateMode == UIDatePickerModeTime){
-//                    result = [NSString stringWithFormat:@"%@", self.datePicker.date];
-//                }
-                
-                [self setDefaultValue:result];
+                [self setDefaultValue:[[NSString stringWithFormat:@"%@", self.datePicker.date] substringToIndex:10]];
                 if([self.delegate respondsToSelector:@selector(EAActionSheetPicker:didDismissWithSelection:inTextField:)]){
-                    
-                     if(self.dateMode == UIDatePickerModeCountDownTimer){
-                         [self.delegate EAActionSheetPicker:self
-                                    didDismissWithSelection:[NSNumber numberWithDouble:self.datePicker.countDownDuration]
-                                                 inTextField:self.textField];
-                     } else {
-                         [self.delegate EAActionSheetPicker:self
-                                    didDismissWithSelection:self.datePicker.date
-                                                inTextField:self.textField];
-                     }
+                    [self.delegate EAActionSheetPicker:self
+                               didDismissWithSelection:self.datePicker.date
+                                           inTextField:self.textField];
                 }
             }
         }
