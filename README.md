@@ -71,6 +71,7 @@ If you're looking for section headers in your UIPickerView, then just add \<h1> 
     
 Enjoy!
     
+- Cocoapod support coming soon
 
 The MIT License (MIT)
 ---------------------
