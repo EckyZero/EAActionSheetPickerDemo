@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "EAActionSheetPicker"
-  s.version          = "1.1.4"
+  s.version          = "0.0.1"
   s.summary          = "A simple UIPickerView/UIDatePicker embedded inside a UIActionSheet"
   s.homepage         = "https://github.com/EckyZero/EAActionSheetPickerDemo"
   s.screenshots      = "https://raw.github.com/EckyZero/EAActionSheetPickerDemo/master/EAActionSheetPickerDemo/Screenshot(2).PNG"
