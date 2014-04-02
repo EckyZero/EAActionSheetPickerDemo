@@ -6,7 +6,7 @@ Pod::Spec.new do |s|
   s.screenshots      = "https://raw.github.com/EckyZero/EAActionSheetPickerDemo/master/EAActionSheetPickerDemo/Screenshot(2).PNG"
   s.license          = 'MIT'
   s.author           = { "Erik Andersen" => "erik.andersen@mcubedlabs.com" }
-  s.source           = { :git => "https://github.com/EckyZero/EAActionSheetPickerDemo.git", :tag => "1.1.0" }
+  s.source           = { :git => "https://github.com/EckyZero/EAActionSheetPickerDemo.git", :tag => s.version.to_s }
   s.social_media_url = 'https://twitter.com/EXAMPLE'
 
   # s.platform     = :ios, '5.0'
