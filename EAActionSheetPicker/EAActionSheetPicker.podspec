@@ -1,12 +1,12 @@
 Pod::Spec.new do |s|
   s.name             = "EAActionSheetPicker"
-  s.version          = "0.0.8"
+  s.version          = "0.0.9"
   s.summary          = "A simple UIPickerView/UIDatePicker embedded inside a UIActionSheet"
   s.homepage         = "https://github.com/EckyZero/EAActionSheetPickerDemo"
   s.screenshots      = "https://raw.github.com/EckyZero/EAActionSheetPickerDemo/master/EAActionSheetPickerDemo/Screenshot(2).PNG"
   s.license          = 'MIT'
   s.author           = { "Erik Andersen" => "erik.andersen@mcubedlabs.com" }
-  s.source           = { :git => "https://github.com/EckyZero/EAActionSheetPickerDemo/EAActionSheetPicker.git", :tag => "0.0.8" }
+  s.source           = { :git => "https://github.com/EckyZero/EAActionSheetPickerDemo/EAActionSheetPicker.git", :tag => "0.0.9" }
 
   s.platform     = :ios, '6.0'
   # s.ios.deployment_target = '5.0'
